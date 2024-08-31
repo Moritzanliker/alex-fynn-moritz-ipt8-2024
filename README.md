@@ -1,6 +1,11 @@
 # alex-fynn-moritz-ipt8-2024
 
+Project: https://github.com/users/Moritzanliker/projects/5
+
+
+
 Project Summary: Collaborative Task Manager Web Application
+
 Project Name: TaskMaster
 
 Objective: TaskMaster is a web-based task management platform designed for project teams to collaborate efficiently. The platform allows users to create and manage projects by organizing tasks (To-Dos) in a shared workspace, referred to as a "board." Each board can be associated with a project, and users within a group can contribute by adding, updating, or completing tasks. The goal is to enhance team productivity and ensure everyone is on the same page regarding project progress.

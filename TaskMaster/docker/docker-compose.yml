@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: taskDB
+      MYSQL_USER: alex
+      MYSQL_PASSWORD: alexP
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mynet
+
+volumes:
+  mysql_data:
+
+networks:
+  mynet:
+    driver: bridge

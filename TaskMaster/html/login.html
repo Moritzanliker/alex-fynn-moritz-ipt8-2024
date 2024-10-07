@@ -75,13 +75,14 @@
   <h2 id="form-title">Login</h2>
   <div id="error-message" class="error"></div>
   
-  <input type="text" id="username" placeholder="Username" required>
-  <input type="password" id="password" placeholder="Password" required>
-  
-  <button id="submit-btn" onclick="submitForm()">Login</button>
+  <form method="POST" action="/login">
+    <input type="email" name="email" placeholder="Email" required><br><br>
+    <input type="password" name="password" placeholder="Password" required><br><br>
+    <button type="submit" class="button">Login</button>
+  </form>
   
   <div class="switch">
-    <p id="switch-text">Don't have an account? <a href="#" onclick="toggleForm()">Register</a></p>
+    <p id="switch-text">Don't have an account? <a href="/html/register.html" onclick="toggleForm()">Signup</a></p>
   </div>
 </div>
 

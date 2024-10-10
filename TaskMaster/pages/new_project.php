@@ -14,36 +14,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $project_name = $_POST['project_name'];
     $description = $_POST['description'];
     $owner_id = $_SESSION['user_id']; // Assuming user_id is stored in session
-    $assigned_username = $_POST['assigned_username'];
+    $assigned_usernames = $_POST['assigned_usernames']; // Get the usernames input
 
-    // Retrieve user ID based on the assigned username
-    $stmt_user = $con->prepare("SELECT user_id FROM user WHERE username = ?");
-    $stmt_user->bind_param("s", $assigned_username);
-    $stmt_user->execute();
-    $stmt_user->store_result();
+    // Prepare and execute the SQL statement to insert the project
+    $stmt_project = $con->prepare("INSERT INTO project (project_name, description, owner_id) VALUES (?, ?, ?)");
+    $stmt_project->bind_param("ssi", $project_name, $description, $owner_id);
 
-    if ($stmt_user->num_rows > 0) {
-        $stmt_user->bind_result($assigned_user_id);
-        $stmt_user->fetch();
+    if ($stmt_project->execute()) {
+        echo "<p>Project created successfully!</p>";
 
-        // Prepare and execute the SQL statement to insert the project
-        $stmt_project = $con->prepare("INSERT INTO project (project_name, description, owner_id) VALUES (?, ?, ?)");
-        $stmt_project->bind_param("ssi", $project_name, $description, $owner_id);
+        // Get the last inserted project ID
+        $project_id = $con->insert_id;
 
-        if ($stmt_project->execute()) {
-            echo "<p>Project created successfully!</p>";
-        } else {
-            echo "<p>Error: " . $stmt_project->error . "</p>";
+        // If usernames are provided, insert them into the project_users table
+        if (!empty($assigned_usernames)) {
+            // Split usernames by comma and trim whitespace
+            $usernames = array_map('trim', explode(',', $assigned_usernames));
+
+            // Insert each user into the project_users table
+            foreach ($usernames as $username) {
+                // Retrieve user ID based on the assigned username
+                $stmt_user = $con->prepare("SELECT user_id FROM user WHERE username = ?");
+                $stmt_user->bind_param("s", $username);
+                $stmt_user->execute();
+                $stmt_user->store_result();
+
+                if ($stmt_user->num_rows > 0) {
+                    $stmt_user->bind_result($assigned_user_id);
+                    $stmt_user->fetch();
+
+                    // Insert into project_users (you must create this table)
+                    $stmt_project_user = $con->prepare("INSERT INTO project_users (project_id, user_id) VALUES (?, ?)");
+                    $stmt_project_user->bind_param("ii", $project_id, $assigned_user_id);
+                    $stmt_project_user->execute();
+                    $stmt_project_user->close();
+                } else {
+                    echo "<p>User '$username' not found.</p>";
+                }
+
+                $stmt_user->close();
+            }
         }
-
-        // Optionally, you can link the project to the assigned user in a project_users table if needed
-
-        $stmt_project->close();
     } else {
-        echo "<p>User not found.</p>";
+        echo "<p>Error: " . $stmt_project->error . "</p>";
     }
 
-    $stmt_user->close();
+    $stmt_project->close();
 }
 ?>
 
@@ -105,11 +121,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="project_name">Project Name:</label>
             <input type="text" id="project_name" name="project_name" required>
             
-            <label for="project_description">Project Description:</label>
-            <textarea id="project_description" name="description" rows="4" required></textarea>
+            <label for="description">Project Description:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
 
-            <label for="assigned_username">Assign User (Username):</label>
-            <input type="text" id="assigned_username" name="assigned_username" >
+            <label for="assigned_usernames">Assign Users (Usernames, comma separated, optional):</label>
+            <input type="text" id="assigned_usernames" name="assigned_usernames">
             
             <input type="submit" value="Create Project">
         </form>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 include("../php/connection.php");
-include("../php/functions.php");// If you have any functions defined in this file
+include("../php/functions.php");
 
 // Assuming you have the user's ID stored in the session after login
 $user_id = $_SESSION['user_id']; // Replace with your actual session variable for user ID
@@ -64,7 +64,7 @@ $member_result = mysqli_query($con, $member_query);
       <div class="container">
          <center>
          <div class="actions">
-               <button class="btn">+ New Project</button>
+               <a href="../pages/new_project.php" class="btn">+ New Project</a>
          </div>
          </center>
          <main class="main-content">

@@ -176,9 +176,7 @@ body {
 }
 
 /* Actions */
-.actions{
-    margin: 50px;
-}
+
 
 .actions .btn {
     background-color: var(--card);

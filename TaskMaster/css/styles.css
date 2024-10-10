@@ -176,6 +176,10 @@ body {
 }
 
 /* Actions */
+.actions{
+    margin: 50px;
+}
+
 .actions .btn {
     background-color: var(--card);
     border: 1px solid var(--border-color);

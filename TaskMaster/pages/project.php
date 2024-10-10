@@ -32,40 +32,37 @@ $member_result = mysqli_query($con, $member_query);
       <link rel="stylesheet" href="../css/styles.css">
    </head>
    <body>
-      <header class="header">
-         <center>
+   <header class="header">
+        <center>
             <div class="header-content">
-               <a href="#" class="logo">
-                  <svg class="icon-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                     <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
-                  </svg>
-                  <span class="title">TaskMaster</span>
-               </a>
-               <nav class="nav">
-                  <a href="../pages/dashboard.php" class="nav-link">Dashboard</a>
-                  <a href="../pages/project.php" class="nav-link">Projects</a>
-                  <a href="../pages/task.php" class="nav-link">Tasks</a>
-                  <a href="../pages/profile.php" class="nav-link">Profile</a>
-               </nav>
-               <div class="header-actions">
-                  <button class="icon-button">
-                     <svg class="icon" width="24px" height="auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
-                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
-                     </svg>
-                  </button>
-                  <label class="switch">
-                  <input type="checkbox" id="toggle-darkmode">
-                  <span class="slider"></span>
-                  </label>
-               </div>
+                <a href="../pages/dashboard.php" class="logo">
+                    <svg class="icon-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
+                    </svg>
+                    <span class="title">TaskMaster</span>
+                </a>
+                <nav class="nav">
+                    <a href="../pages/dashboard.php" class="nav-link">Dashboard</a>
+                    <a href="../pages/project.php" class="nav-link">Projects</a>
+                    <a href="../pages/task.php" class="nav-link">Tasks</a>
+                </nav>
+                <div class="header-actions">
+                    Hello, <?php echo $user_data['username']; ?>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-darkmode">
+                        <span class="slider"></span>
+                    </label>
+                    <nav class="nav">
+                        <a href="../php/logout.php" class="nav-link">Logout</a>
+                    </nav>
+                </div>
             </div>
-         </center>
-      </header>
+        </center>
+    </header>
       <div class="container">
          <center>
          <div class="actions">
-               <a href="../pages/new_project.php" class="btn">+ New Project</a>
+               <a href="../pages/new_project.php" class="btn" style=" text-decoration: none; color: black;">+ New Project</a>
          </div>
          </center>
          <main class="main-content">

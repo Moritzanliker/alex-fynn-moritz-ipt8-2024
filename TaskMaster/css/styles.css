@@ -175,8 +175,9 @@ body {
     text-decoration: underline;
 }
 
-/* Actions */
-
+a {
+    text-decoration: none;
+}
 
 .actions .btn {
     background-color: var(--card);
@@ -186,13 +187,16 @@ body {
     cursor: pointer;
     font-weight: bold;
     font-size: 0.875rem;
+    text-decoration: none;
+    color: black;
 }
-
 .actions .btn:hover {
     background-color: var(--primary);
     color: white;
     border-color: var(--primary);
+    text-decoration: none;
 }
+
 
 /* Card Grid */
 .card-grid {
@@ -322,6 +326,4 @@ body {
 .footer-nav a:hover {
     color: var(--foreground);
 }
-
-
 

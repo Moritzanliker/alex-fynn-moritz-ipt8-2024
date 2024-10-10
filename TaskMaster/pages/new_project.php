@@ -15,10 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $description = $_POST['description'];
     $owner_id = $_SESSION['user_id']; // Assuming user_id is stored in session
     $assigned_usernames = $_POST['assigned_usernames']; // Get the usernames input
+    $status = $_POST['status']; // Get the selected status
+    $due_date = $_POST['due_date']; // Get the due date input
 
     // Prepare and execute the SQL statement to insert the project
-    $stmt_project = $con->prepare("INSERT INTO project (project_name, description, owner_id) VALUES (?, ?, ?)");
-    $stmt_project->bind_param("ssi", $project_name, $description, $owner_id);
+    $stmt_project = $con->prepare("INSERT INTO project (project_name, description, owner_id, status, due_date) VALUES (?, ?, ?, ?, ?)");
+    $stmt_project->bind_param("ssiss", $project_name, $description, $owner_id, $status, $due_date);
 
     if ($stmt_project->execute()) {
         echo "<p>Project created successfully!</p>";
@@ -92,7 +94,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin-bottom: 5px;
         }
         input[type="text"],
-        textarea {
+        textarea,
+        input[type="date"],
+        select {
             width: 95%;
             padding: 10px;
             margin-bottom: 10px;
@@ -119,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-    <a href="../pages/dashboard.php"> Go Back</a>
+    <a href="../pages/dashboard.php">Go Back</a>
     <div class="container">
         <h2>Create a New Project</h2>
         <form method="POST" action="">
@@ -128,6 +132,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             <label for="description">Project Description:</label>
             <textarea id="description" name="description" rows="4" required></textarea>
+
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+                <option value="pending">Pending</option>
+                <option value="in_progress">In Progress</option>
+                <option value="completed">Completed</option>
+            </select>
+
+            <label for="due_date">Due Date:</label>
+            <input type="date" id="due_date" name="due_date" required>
 
             <label for="assigned_usernames">Assign Users (Usernames, comma separated, optional):</label>
             <input type="text" id="assigned_usernames" name="assigned_usernames">

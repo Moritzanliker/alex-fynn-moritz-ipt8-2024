@@ -56,7 +56,6 @@ $recent_tasks_result = mysqli_query($con, $recent_tasks_query);
                     <a href="../pages/dashboard.php" class="nav-link">Dashboard</a>
                     <a href="../pages/project.php" class="nav-link">Projects</a>
                     <a href="../pages/task.php" class="nav-link">Tasks</a>
-                    <a href="../pages/profile.php" class="nav-link">Profile</a>
                 </nav>
                 <div class="header-actions">
                     Hello, <?php echo $user_data['username']; ?>
@@ -77,9 +76,9 @@ $recent_tasks_result = mysqli_query($con, $recent_tasks_query);
                 <div class="section-header">
                     <h1>Dashboard</h1>
                     <div class="actions">
-                        <button class="btn">+ New Project</button>
-                        <button class="btn">+ New Task</button>
-                    </div>
+                        <a href="../pages/new_project.php" class="btn" style=" text-decoration: none; color: black;">+ New Project</a>
+                        <a href="../pages/task.php"class="btn" style=" text-decoration: none; color: black;"> + New Task</a>
+                     </div>
                 </div>
                 <div class="card-grid">
                     <div class="card">

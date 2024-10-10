@@ -1,23 +1,33 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  mysql:
-    image: mysql:latest
-    container_name: mysql-db
+  db:
+    image: mysql:8.0
+    container_name: mysql_container
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: taskDB
-      MYSQL_USER: alex
-      MYSQL_PASSWORD: alexP
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_DATABASE: taskdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 
     ports:
-      - "3308:3306"
+      - "3308:3306" # Binding MySQL port 3308 to your host machine
     volumes:
       - mysql_data:/var/lib/mysql
-    networks:
-      - mynet
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_container
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: 
+    ports:
+      - "8080:80" # phpMyAdmin accessible via localhost:8080
+    depends_on:
+      - db
 
 volumes:
   mysql_data:
+    driver: local
 
 networks:
   mynet:

@@ -3,89 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login & Register</title>
-  <style>
-    body {
-      background-color: #f2f2f2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: Arial, sans-serif;
-    }
-    
-    .container {
-      background-color: white;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-      width: 300px;
-    }
-
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-
-    input[type="text"], input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #218838;
-    }
-
-    .switch {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .switch a {
-      color: #007bff;
-      text-decoration: none;
-    }
-
-    .switch a:hover {
-      text-decoration: underline;
-    }
-
-    .error {
-      color: red;
-      text-align: center;
-    }
-  </style>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login & Registration Form</title>
+  <link rel="stylesheet" href="login.css">
 </head>
 <body>
-
-<div class="container" id="form-container">
-  <h2 id="form-title">Login</h2>
-  <div id="error-message" class="error"></div>
-  
-  <form method="POST" action="/login">
-    <input type="email" name="email" placeholder="Email" required><br><br>
-    <input type="password" name="password" placeholder="Password" required><br><br>
-    <button type="submit" class="button">Login</button>
-  </form>
-  
-  <div class="switch">
-    <p id="switch-text">Don't have an account? <a href="/html/register.html" onclick="toggleForm()">Signup</a></p>
+  <div class="container">
+    <input type="checkbox" id="check">
+    <div class="login form">
+      <header>Login</header>
+      <form action="#">
+        <input type="text" id="loginEmail" placeholder="Enter your email">
+        <input type="password" id="loginPassword" placeholder="Enter your password">
+        <div id="loginError" class="error-message"></div>
+        <input type="button" class="button" value="Login" onclick="login()">
+      </form>
+      <div class="signup">
+        <span class="signup">Don't have an account?
+         <label for="check">Signup</label>
+        </span>
+      </div>
+    </div>
+    <div class="registration form">
+      <header>Signup</header>
+      <form action="#">
+        <input type="text" id="signupUsername" name="username" placeholder="Enter your username">
+        <input type="text" id="signupEmail" placeholder="Enter your email">
+        <input type="password" id="signupPassword" placeholder="Create a password">
+        <input type="password" id="confirmPassword" placeholder="Confirm your password">
+        <div id="signupError" class="error-message"></div>
+        <input type="text" id="signupCity" name="city" placeholder="Enter your city">
+        <input type="button" class="button" value="Signup" onclick="signup()">
+      </form>
+      <div class="signup">
+        <span class="signup">Already have an account?
+         <label for="check">Login</label>
+        </span>
+      </div>
+    </div>
   </div>
-</div>
-
-<script src="/TaskMaster/js/script.js"></script>
+  <script src="login.js"></script>
 </body>
 </html>

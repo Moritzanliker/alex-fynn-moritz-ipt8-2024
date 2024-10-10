@@ -11,7 +11,7 @@ def get_db_connection():
         host='localhost',
         user='your_user',
         password='your_password',
-        database='taskmaster_db'
+        database='taskDB'
     )
     return conn
 
@@ -22,48 +22,34 @@ def hash_password(password):
 # Home route
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('index.html')
 
-# Login route
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        hashed_password = hash_password(password)
-
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Users WHERE email=%s AND password=%s", (email, hashed_password))
-        user = cursor.fetchone()
-        conn.close()
-
-        if user:
-            session['user_id'] = user['id']
-            return redirect(url_for('dashboard'))
+# Home route
+@app.route('/auth', methods=['POST'])
+def auth():
+    # Get form data from JS (login/register)
+    username = request.form.get('username')
+    password = request.form.get('password')
+    action = request.form.get('action')
+    
+    if action == 'login':
+        if username in taskDB and taskDB[username] == password:
+            return jsonify({"success": True, "message": "Login successful!"})
         else:
-            return "Invalid credentials!"
+            return jsonify({"success": False, "message": "Invalid username or password"})
+    
+    elif action == 'register':
+        if username in users_db:
+            return jsonify({"success": False, "message": "Username already taken"})
+        else:
+            # Store new user in database
+            users_db[username] = password
+            return jsonify({"success": True, "message": "Registration successful!"})
+    
+    return jsonify({"success": False, "message": "Invalid action"})
 
-    return render_template('login.html')
-
-# Signup route
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        password = request.form['password']
-        hashed_password = hash_password(password)
-
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO Users (name, email, password) VALUES (%s, %s, %s)", (name, email, hashed_password))
-        conn.commit()
-        conn.close()
-
-        return redirect(url_for('login'))
-
-    return render_template('signup.html')
+if __name__ == '__main__':
+    app.run(debug=True)
 
 # Dashboard route
 @app.route('/dashboard')

@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 
         mysqli_query($con, $query);
 
-        header("Location: login.php");
+        header("Location: ../pages/login.php");
         die;
     }else
     {
@@ -130,7 +130,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
             <input type="submit" value="Signup">
         </form>
         <div class="switch">
-            Already have an account? <a href="login.php">Login</a>
+            Already have an account? <a href="../pages/login.php">Login</a>
         </div>
         <div id="error-message" class="error-message"></div>
     </div>

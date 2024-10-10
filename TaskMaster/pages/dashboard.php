@@ -18,17 +18,17 @@ include("../php/functions.php");
       <header class="header">
          <center>
             <div class="header-content">
-               <a href="#" class="logo">
+               <a href="../pages/dashboard.php" class="logo">
                   <svg class="icon-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                      <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
                   </svg>
                   <span class="title">TaskMaster</span>
                </a>
                <nav class="nav">
-                  <a href="../pages/dashboard.html" class="nav-link">Dashboard</a>
-                  <a href="../pages/project.html" class="nav-link">Projects</a>
-                  <a href="../pages/task.html" class="nav-link">Tasks</a>
-                  <a href="../pages/profile.html" class="nav-link">Profile</a>
+                  <a href="../pages/dashboard.php" class="nav-link">Dashboard</a>
+                  <a href="../pages/project.php" class="nav-link">Projects</a>
+                  <a href="../pages/task.php" class="nav-link">Tasks</a>
+                  <a href="../pages/profile.php" class="nav-link">Profile</a>
                </nav>
                <div class="header-actions">
                Hello, <?php echo $user_data['username']; ?>
@@ -37,6 +37,9 @@ include("../php/functions.php");
                   <input type="checkbox" id="toggle-darkmode">
                   <span class="slider"></span>
                   </label>
+                  <nav class="nav">
+                  <a href="../php/logout.php" class="nav-link">Logout</a>
+                  </nav>
                </div>
             </div>
          </center>
@@ -256,6 +259,6 @@ include("../php/functions.php");
             </div>
          </footer>
       </div>
-      <script src="/alex-fynn-moritz-ipt8-2024/TaskMaster/js/script.js"></script>
+      <script src="../js/script.js"></script>
    </body>
 </html>

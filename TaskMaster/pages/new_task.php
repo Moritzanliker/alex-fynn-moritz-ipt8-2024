@@ -5,7 +5,7 @@ include("../php/functions.php");
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php"); // Redirect to login if not logged in
+    header("Location: ../pages/login.php"); // Redirect to login if not logged in
     exit();
 }
 
@@ -81,7 +81,7 @@ $stmt_projects->close();
             max-width: 500px;
             margin: auto;
             background: #fff;
-            padding: 20px;
+            padding: 30px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -115,9 +115,14 @@ $stmt_projects->close();
         input[type="submit"]:hover {
             background-color: #218838;
         }
+        a {
+            text-decoration: none;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
+<a href="../pages/dashboard.php"> Go Back</a>
     <div class="container">
         <h2>Create a New Task</h2>
         <form method="POST" action="">

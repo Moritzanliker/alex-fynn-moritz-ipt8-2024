@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
                 if($user_data['password'] === $password)
                 {
                     $_SESSION['user_id'] = $user_data['user_id'];
-                    header("Location: /alex-fynn-moritz-ipt8-2024/TaskMaster/html/dashboard.html");
+                    header("Location: ../pages/dashboard.php");
                     die;
                 }
             }
@@ -143,7 +143,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
             <input type="submit" value="Login">
         </form>
         <div class="switch">
-            Don't have an account? <a href="signup.php">Sign up</a>
+            Don't have an account? <a href="../pages/signup.php">Sign up</a>
         </div>
         <div id="loginError" class="error-message"></div>
     </div>

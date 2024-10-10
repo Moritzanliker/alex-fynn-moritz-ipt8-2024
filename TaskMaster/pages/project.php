@@ -2,6 +2,7 @@
 session_start();
 include("../php/connection.php");
 include("../php/functions.php");
+$user_data = check_login($con);
 
 // Assuming you have the user's ID stored in the session after login
 $user_id = $_SESSION['user_id']; // Replace with your actual session variable for user ID
@@ -41,10 +42,10 @@ $member_result = mysqli_query($con, $member_query);
                   <span class="title">TaskMaster</span>
                </a>
                <nav class="nav">
-                  <a href="../pages/dashboard.html" class="nav-link">Dashboard</a>
-                  <a href="../pages/project.html" class="nav-link">Projects</a>
-                  <a href="../pages/task.html" class="nav-link">Tasks</a>
-                  <a href="../pages/profile.html" class="nav-link">Profile</a>
+                  <a href="../pages/dashboard.php" class="nav-link">Dashboard</a>
+                  <a href="../pages/project.php" class="nav-link">Projects</a>
+                  <a href="../pages/task.php" class="nav-link">Tasks</a>
+                  <a href="../pages/profile.php" class="nav-link">Profile</a>
                </nav>
                <div class="header-actions">
                   <button class="icon-button">
@@ -115,7 +116,7 @@ $member_result = mysqli_query($con, $member_query);
                      </div>
                      <div class="card-footer">
                         <p>Created At: <?php echo htmlspecialchars($member_project['created_at']); ?></p>
-                        <a href="#" class="view-link">View Project</a>
+                        <a href="../pages/project_view.php" class="view-link">View Project</a>
                      </div>
                   </div>
                </div>
@@ -134,6 +135,6 @@ $member_result = mysqli_query($con, $member_query);
             </div>
          </footer>
       </div>
-      <script src="/alex-fynn-moritz-ipt8-2024/TaskMaster/js/script.js"></script>
+      <script src="../js/script.js"></script>
    </body>
 </html>

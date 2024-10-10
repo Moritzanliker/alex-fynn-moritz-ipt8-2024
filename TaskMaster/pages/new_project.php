@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            padding: 20px;
+            padding: 50px;
         }
         .container {
             max-width: 500px;
@@ -93,14 +93,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         input[type="text"],
         textarea {
-            width: 100%;
+            width: 95%;
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 3px;
         }
         input[type="submit"] {
-            width: 100%;
+            width: 99%;
             padding: 10px;
             background-color: #28a745;
             border: none;
@@ -112,9 +112,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         input[type="submit"]:hover {
             background-color: #218838;
         }
+        a {
+            text-decoration: none;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
+    <a href="../pages/dashboard.php"> Go Back</a>
     <div class="container">
         <h2>Create a New Project</h2>
         <form method="POST" action="">

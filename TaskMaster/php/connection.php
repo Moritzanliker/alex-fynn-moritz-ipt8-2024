@@ -1,12 +1,14 @@
 <?php
 
 $dbhost = "localhost";
+$dbport = 3310;
 $dbuser = "root";
-$dbpass = "";
-$dbname = "taskDB";
+$dbpass = "123";
+$dbname = "taskdb";
 
-if(!$con = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname))
+if(!$con = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname, $dbport))
 {
 
 	die("failed to connect!");
 }
+

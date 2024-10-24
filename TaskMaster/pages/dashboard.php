@@ -77,7 +77,7 @@ $recent_tasks_result = mysqli_query($con, $recent_tasks_query);
                     <h1>Dashboard</h1>
                     <div class="actions">
                         <a href="../pages/new_project.php" class="btn" style=" text-decoration: none; color: black;">+ New Project</a>
-                        <a href="../pages/task.php"class="btn" style=" text-decoration: none; color: black;"> + New Task</a>
+                        <a href="../pages/new_task.php"class="btn" style=" text-decoration: none; color: black;"> + New Task</a>
                      </div>
                 </div>
                 <div class="card-grid">

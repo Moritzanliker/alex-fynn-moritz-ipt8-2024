@@ -14,38 +14,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $task_name = $_POST['task_name'];
     $description = $_POST['description'];
     $project_id = $_POST['project_id']; // Selected project
-    $assigned_username = $_POST['assigned_username']; // Assigned user
+    $assigned_user_ids = isset($_POST['assigned_user_ids']) ? $_POST['assigned_user_ids'] : []; // Array of assigned user IDs
     $status = $_POST['status'];
     $due_date = $_POST['due_date'];
 
-    // Prepare and execute the SQL statement to insert the task
-    $stmt_task = $con->prepare("INSERT INTO task (task_name, description, status, project_id, assigned_user_id, due_date) VALUES (?, ?, ?, ?, ?, ?)");
-    
-    // Default assigned_user_id to null
-    $assigned_user_id = null;
-
-    // Retrieve user ID based on the assigned username if provided
-    if (!empty($assigned_username)) {
-        $stmt_user = $con->prepare("SELECT user_id FROM user WHERE username = ?");
-        $stmt_user->bind_param("s", $assigned_username);
-        $stmt_user->execute();
-        $stmt_user->store_result();
-
-        if ($stmt_user->num_rows > 0) {
-            $stmt_user->bind_result($assigned_user_id);
-            $stmt_user->fetch();
-        } else {
-            echo "<p>User '$assigned_username' not found. Task will be created without assigned user.</p>";
-        }
-
-        $stmt_user->close();
-    }
-
-    // Bind parameters and execute the task insert statement
-    $stmt_task->bind_param("sssiis", $task_name, $description, $status, $project_id, $assigned_user_id, $due_date);
+    // Insert the task first
+    $stmt_task = $con->prepare("INSERT INTO task (task_name, description, status, project_id, due_date) VALUES (?, ?, ?, ?, ?)");
+    $stmt_task->bind_param("sssiss", $task_name, $description, $status, $project_id, $due_date);
 
     if ($stmt_task->execute()) {
-        echo "<p>Task created successfully!</p>";
+        // Get the last inserted task ID
+        $task_id = $stmt_task->insert_id;
+
+        // Assign users to the task
+        foreach ($assigned_user_ids as $user_id) {
+            $stmt_assign = $con->prepare("INSERT INTO task_users (task_id, user_id) VALUES (?, ?)");
+            $stmt_assign->bind_param("ii", $task_id, $user_id);
+            $stmt_assign->execute();
+            $stmt_assign->close();
+        }
+
+        echo "<p>Task created successfully and users assigned!</p>";
     } else {
         echo "<p>Error: " . $stmt_task->error . "</p>";
     }
@@ -62,6 +51,21 @@ while ($stmt_projects->fetch()) {
     $projects[] = ['id' => $project_id, 'name' => $project_name];
 }
 $stmt_projects->close();
+
+// Fetch users assigned to the selected project (if a project is selected)
+$assigned_users = [];
+if (isset($_POST['project_id'])) {
+    $project_id = $_POST['project_id'];
+    $stmt_users = $con->prepare("SELECT u.user_id, u.username FROM user u INNER JOIN project_users pu ON u.user_id = pu.user_id WHERE pu.project_id = ?");
+    $stmt_users->bind_param("i", $project_id);
+    $stmt_users->execute();
+    $stmt_users->bind_result($user_id, $username);
+    while ($stmt_users->fetch()) {
+        $assigned_users[] = ['id' => $user_id, 'name' => $username];
+    }
+    $stmt_users->close();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -140,8 +144,14 @@ $stmt_projects->close();
                 <?php endforeach; ?>
             </select>
 
-            <label for="assigned_username">Assign User (Username, optional):</label>
-            <input type="text" id="assigned_username" name="assigned_username">
+            <?php if (!empty($assigned_users)): ?>
+                <div class="checkbox-group">
+                    <label>Assign Users:</label>
+                    <?php foreach ($assigned_users as $user): ?>
+                        <input type="checkbox" name="assigned_user_ids[]" value="<?= $user['id'] ?>"> <?= htmlspecialchars($user['name']) ?><br>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
 
             <label for="status">Task Status:</label>
             <select id="status" name="status" required>

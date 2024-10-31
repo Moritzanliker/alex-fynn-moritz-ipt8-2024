@@ -22,6 +22,45 @@ $member_query = "SELECT p.project_id, p.project_name, p.description, p.created_a
                  WHERE pu.user_id = '$user_id' AND pu.role = 'member'"; // Adjust 'member' if necessary
 
 $member_result = mysqli_query($con, $member_query);
+
+// Function to calculate progress based on tasks
+function calculate_project_progress($project_id, $con) {
+   $task_query = "SELECT status FROM task WHERE project_id = ?";
+   $stmt = $con->prepare($task_query);
+   $stmt->bind_param("i", $project_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+
+   $total_tasks = 0;
+   $progress_points = 0;
+
+   while ($task = $result->fetch_assoc()) {
+       $total_tasks++;
+       if ($task['status'] === 'completed') {
+           $progress_points += 2;
+       } elseif ($task['status'] === 'in_progress') {
+           $progress_points += 1;
+       }
+   }
+
+   // Calculate progress as a percentage
+   return $total_tasks > 0 ? ($progress_points / ($total_tasks * 2)) * 100 : 0;
+}
+
+// Fetch project progress for owned projects
+$owned_projects = [];
+while ($project = mysqli_fetch_assoc($owner_result)) {
+   $project['progress'] = calculate_project_progress($project['project_id'], $con);
+   $owned_projects[] = $project;
+}
+
+// Fetch project progress for member projects
+$member_projects = [];
+while ($project = mysqli_fetch_assoc($member_result)) {
+   $project['progress'] = calculate_project_progress($project['project_id'], $con);
+   $member_projects[] = $project;
+}
+
 ?>
 
 
@@ -112,51 +151,51 @@ $member_result = mysqli_query($con, $member_query);
          <!-- Projects Owned by User -->
          <h2 class="section-title">Projects Owned</h2>
          <div class="card-grid">
-            <?php while ($owner_project = mysqli_fetch_assoc($owner_result)): ?>
+            <?php foreach ($owned_projects as $owner_project): ?>
                <div class="card">
-                  <div class="card-header">
-                     <h2><?php echo htmlspecialchars($owner_project['project_name']); ?></h2>
-                     <p><?php echo htmlspecialchars($owner_project['description']); ?></p>
-                  </div>
-                  <div class="card-content">
-                     <div class="progress">
-                        <span>Progress</span>
-                        <div class="progress-bar">
-                           <div class="progress-fill" style="width: 65%;"></div>
+                     <div class="card-header">
+                        <h2><?php echo htmlspecialchars($owner_project['project_name']); ?></h2>
+                        <p><?php echo htmlspecialchars($owner_project['description']); ?></p>
+                     </div>
+                     <div class="card-content">
+                        <div class="progress">
+                           <span>Progress</span>
+                           <div class="progress-bar">
+                                 <div class="progress-fill" style="width: <?php echo $owner_project['progress']; ?>%;"></div>
+                           </div>
+                        </div>
+                        <div class="card-footer">
+                           <p>Created At: <?php echo htmlspecialchars($owner_project['created_at']); ?></p>
+                           <a href="../pages/project_view.php?project_id=<?php echo $owner_project['project_id']; ?>" class="view-link">View Project</a>
                         </div>
                      </div>
-                     <div class="card-footer">
-                        <p>Created At: <?php echo htmlspecialchars($owner_project['created_at']); ?></p>
-                        <a href="../pages/project_view.php?project_id=<?php echo $owner_project['project_id']; ?>" class="view-link">View Project</a>
-                     </div>
-                  </div>
                </div>
-            <?php endwhile; ?>
+            <?php endforeach; ?>
          </div>
 
          <!-- Projects Member of -->
          <h2 class="section-title">Projects I'm a Member Of</h2>
          <div class="card-grid">
-            <?php while ($member_project = mysqli_fetch_assoc($member_result)): ?>
+            <?php foreach ($member_projects as $member_project): ?>
                <div class="card">
-                  <div class="card-header">
-                     <h2><?php echo htmlspecialchars($member_project['project_name']); ?></h2>
-                     <p><?php echo htmlspecialchars($member_project['description']); ?></p>
-                  </div>
-                  <div class="card-content">
-                     <div class="progress">
-                        <span>Progress</span>
-                        <div class="progress-bar">
-                           <div class="progress-fill" style="width: 75%;"></div>
+                     <div class="card-header">
+                        <h2><?php echo htmlspecialchars($member_project['project_name']); ?></h2>
+                        <p><?php echo htmlspecialchars($member_project['description']); ?></p>
+                     </div>
+                     <div class="card-content">
+                        <div class="progress">
+                           <span>Progress</span>
+                           <div class="progress-bar">
+                                 <div class="progress-fill" style="width: <?php echo $member_project['progress']; ?>%;"></div>
+                           </div>
+                        </div>
+                        <div class="card-footer">
+                           <p>Created At: <?php echo htmlspecialchars($member_project['created_at']); ?></p>
+                           <a href="../pages/project_view.php?project_id=<?php echo $member_project['project_id']; ?>" class="view-link">View Project</a>
                         </div>
                      </div>
-                     <div class="card-footer">
-                        <p>Created At: <?php echo htmlspecialchars($member_project['created_at']); ?></p>
-                        <a href="../pages/project_view.php?project_id=<?php echo $member_project['project_id']; ?>" class="view-link">View Project</a>
-                     </div>
-                  </div>
                </div>
-            <?php endwhile; ?>
+            <?php endforeach; ?>
          </div>
       </section>
    </main>
@@ -172,6 +211,29 @@ $member_result = mysqli_query($con, $member_query);
       </nav>
    </div>
 </footer>
-<script src="../js/script.js"></script>
+<script src="../js/script.js">
+   function updateProgressBar() {
+    // Calculate total points and max points
+    const totalTasks = <?php echo array_sum(array_map('count', $tasks)); ?>;
+    const maxPoints = totalTasks * 2;
+    let currentPoints = 0;
+
+    // Calculate points for each task based on status
+    document.querySelectorAll('.task-item').forEach(task => {
+        const status = task.closest('.frame').id.replace('frame-', '');
+        if (status === 'in_progress') currentPoints += 1;
+        else if (status === 'completed') currentPoints += 2;
+    });
+
+    // Calculate progress percentage
+    const progressPercentage = Math.round((currentPoints / maxPoints) * 100);
+
+    // Update progress bar
+    const progressBar = document.getElementById("progress-bar");
+    progressBar.style.width = `${progressPercentage}%`;
+    progressBar.setAttribute("aria-valuenow", progressPercentage);
+    progressBar.textContent = `${progressPercentage}%`;
+}
+</script>
 </body>
 </html>

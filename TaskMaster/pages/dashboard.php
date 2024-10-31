@@ -26,14 +26,26 @@ $upcoming_deadlines_query = "SELECT COUNT(*) AS count FROM project WHERE owner_i
 $upcoming_deadlines_result = mysqli_query($con, $upcoming_deadlines_query);
 $upcoming_deadlines_count = mysqli_fetch_assoc($upcoming_deadlines_result)['count'];
 
-// Query for the 3 most recent projects
-$recent_projects_query = "SELECT project_id, project_name, description, due_date FROM project WHERE owner_id = $user_id ORDER BY created_at DESC LIMIT 3";
-
+// Query to get all projects that the user either owns or is a member of, ordered by due date
+$recent_projects_query = "
+    SELECT project.project_id, project.project_name, project.description, project.due_date
+    FROM project
+    WHERE project.owner_id = $user_id
+    UNION
+    SELECT project.project_id, project.project_name, project.description, project.due_date
+    FROM project
+    JOIN project_users ON project.project_id = project_users.project_id
+    WHERE project_users.user_id = $user_id
+    ORDER BY due_date ASC";
 $recent_projects_result = mysqli_query($con, $recent_projects_query);
 
-// Query for the 3 most recent tasks
-$recent_tasks_query = "SELECT task_name, description, due_date FROM task WHERE assigned_user_id = $user_id ORDER BY created_at DESC LIMIT 3";
+// Query for all tasks ordered by due date
+$recent_tasks_query = "SELECT task_name, description, due_date 
+                       FROM task 
+                       WHERE assigned_user_id = $user_id 
+                       ORDER BY due_date ASC";
 $recent_tasks_result = mysqli_query($con, $recent_tasks_query);
+
 ?>
 
 <!DOCTYPE html>

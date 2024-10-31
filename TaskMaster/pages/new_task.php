@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Insert the task first
     $stmt_task = $con->prepare("INSERT INTO task (task_name, description, status, project_id, due_date) VALUES (?, ?, ?, ?, ?)");
-    $stmt_task->bind_param("sssiss", $task_name, $description, $status, $project_id, $due_date);
+    $stmt_task->bind_param("sssis", $task_name, $description, $status, $project_id, $due_date);
 
     if ($stmt_task->execute()) {
         // Get the last inserted task ID

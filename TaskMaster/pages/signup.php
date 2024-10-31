@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     {
         //save to database
         $user_id = random_num(20);
-        $query = "insert into user (user_id,username,password) values ('$user_id','$username','$password')";
+        $query = "insert into user (username,password) values ('$username','$password')";
 
         mysqli_query($con, $query);
 

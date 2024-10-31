@@ -236,14 +236,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task_id'], $_POST['ne
 /* Change the badge background and text colors */
 .badge-primary {
     background-color: var(--primary); /* Use custom primary color */
-    color: var(--primary-acc); /* Use custom accessible color (typically white or contrasting color) */
+    color:white; /* Use custom accessible color (typically white or contrasting color) */
 }
 
 /* Optional: Customize the Kick button */
 .btn-danger {
     background-color: var(--primary); /* Use primary color for button */
     border-color: var(--primary); /* Use primary color for border */
-    color: var(--primary-acc); /* Use accessible color for text */
+    color: white; /* Use accessible color for text */
 }
 
 /* Ensure hover states match your theme */
@@ -367,7 +367,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task_id'], $_POST['ne
 </div>
 
 <!-- Footer -->
-<footer class="footer bg-light text-center mt-5 py-3">
+<footer class="footer --primary text-center mt-5 py-3">
     <div class="container">
         <p>© 2024 TaskMaster. All rights reserved.</p>
         <nav>

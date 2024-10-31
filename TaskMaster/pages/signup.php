@@ -2,6 +2,7 @@
 session_start();
 include("../php/connection.php");
 include("../php/functions.php");
+
 if($_SERVER['REQUEST_METHOD'] == "POST")
 {
     $username = $_POST['username'];
@@ -9,20 +10,31 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 
     if(!empty($username) && !empty($password) && !is_numeric($username))
     {
-        //save to database
-        $user_id = random_num(20);
-        $query = "insert into user (username,password) values ('$username','$password')";
+        // Check if the username already exists
+        $query = "SELECT * FROM user WHERE username = '$username'";
+        $result = mysqli_query($con, $query);
 
-        mysqli_query($con, $query);
+        if(mysqli_num_rows($result) > 0) {
+            // Username already exists
+            echo "<div class='error'>Username already taken. Please choose another one.</div>";
+        } else {
+            // Save to database
+            $user_id = random_num(20);
+            $query = "INSERT INTO user (username, password) VALUES ('$username', '$password')";
 
-        header("Location: ../pages/login.php");
-        die;
-    }else
+            mysqli_query($con, $query);
+
+            header("Location: ../pages/login.php");
+            die;
+        }
+    }
+    else
     {
         echo "<div class='error'>Please enter some valid information!</div>";
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

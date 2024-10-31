@@ -165,43 +165,100 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task_id'], $_POST['ne
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($project['project_name']); ?> - Project Details</title>
-    <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <style>
-        .frame-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .frame {
-            width: 250px;
-            height: 400px; /* Fixed height for task frames */
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            text-align: center;
-            overflow-y: auto; /* Enables vertical scrolling */
-        }
-        .frame h5 {
-            margin-bottom: 10px;
-        }
-        .task-item {
-            width: 90%;
-            background-color: #007bff;
-            color: white;
-            padding: 10px;
-            margin-bottom: 10px;
-            cursor: move;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            /* Prevent tasks from floating next to each other */
-            display: block;
-        }
-    </style>
+
+    .frame-container {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .frame {
+        width: 250px;
+        height: 400px; /* Fixed height for task frames */
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        padding: 10px;
+        background-color: var(--card);
+        color: var(--card-foreground);
+        text-align: center;
+        overflow-y: auto; /* Enables vertical scrolling */
+    }
+
+    .frame h5 {
+        margin-bottom: 10px;
+    }
+
+    .task-item {
+        width: 90%;
+        background-color: var(--primary);
+        color: white;
+        padding: 10px;
+        margin-bottom: 10px;
+        cursor: move;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* Prevent tasks from floating next to each other */
+        display: block;
+    }
+
+    .progress {
+        margin-top: 20px; /* Adds spacing above */
+        margin-bottom: 20px; /* Adds spacing below */
+        height: 32px; /* Desired height for the entire bar */
+        background-color: var(--border-color); /* Sets the grey background */
+        border-radius: var(--radius); /* Rounded corners */
+        overflow: hidden; /* Ensures red part doesn't overflow */
+    }
+
+    .progress-bar {
+        height: 100%; /* Ensures the colored bar fills the entire height */
+        margin: 0; /* Removes any default margins */
+        padding: 0; /* Removes any default padding */
+        font-size: 16px; /* Adjusts text size */
+        line-height: 32px; /* Centers the text vertically */
+        background-color: var(--primary); /* Sets the color from primary variable */
+        color: white; /* Sets text color from primary-acc variable */
+        border-radius: var(--radius) 0 0 var(--radius); /* Matches the container’s corners */
+    }
+    /* Override Bootstrap's default background and text colors for list-group-item */
+.list-group-item {
+    background-color: var(--card); /* Use your custom background color */
+    color: var(--card-foreground); /* Use your custom text color */
+    border-color: var(--border-color); /* Use custom border color */
+}
+
+/* Change the badge background and text colors */
+.badge-primary {
+    background-color: var(--primary); /* Use custom primary color */
+    color:white; /* Use custom accessible color (typically white or contrasting color) */
+}
+
+/* Optional: Customize the Kick button */
+.btn-danger {
+    background-color: var(--primary); /* Use primary color for button */
+    border-color: var(--primary); /* Use primary color for border */
+    color: white; /* Use accessible color for text */
+}
+
+/* Ensure hover states match your theme */
+.list-group-item:hover {
+    background-color: var(--muted); /* Adjust if a hover effect is needed */
+}
+
+.btn-danger:hover {
+    background-color: var(--primary-acc); /* Optional: Adjust color on hover */
+    color: var(--card); /* Ensure text contrasts with the hover color */
+}
+
+
+</style>
+
 </head>
 <body>
 
@@ -244,6 +301,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task_id'], $_POST['ne
             <span class="badge badge-warning">Due Date: <?php echo date('F d, Y', strtotime($project['due_date'])); ?></span>
         </div>
 
+        <div class="progress mt-4 mb-4" style="height: 24px;">
+            <div id="progress-bar" class="progress-bar bg-danger" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+        </div>
+
+
         <!-- New Task Button -->
         <a href="../pages/new_task.php" class="btn btn-success mb-4">+ Add New Task</a>
 
@@ -269,6 +331,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task_id'], $_POST['ne
         </div>
 
         <!-- Project Team Members and Actions -->
+    
         <h2 class="mt-5">Team Members</h2>
         <div class="list-group mb-4">
             <?php while ($member = $members_result->fetch_assoc()) { ?>
@@ -304,7 +367,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task_id'], $_POST['ne
 </div>
 
 <!-- Footer -->
-<footer class="footer bg-light text-center mt-5 py-3">
+<footer class="footer --primary text-center mt-5 py-3">
     <div class="container">
         <p>© 2024 TaskMaster. All rights reserved.</p>
         <nav>
@@ -314,6 +377,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task_id'], $_POST['ne
 </footer>
 
 <script>
+
+const button = document.getElementById('toggle-darkmode');
+const body = document.body;
+
+button.addEventListener('click', () => {
+    body.classList.toggle('darkmode');
+});
+
     function allowDrop(event) {
     event.preventDefault();
 }
@@ -321,6 +392,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task_id'], $_POST['ne
 function drag(event) {
     event.dataTransfer.setData("text", event.target.id);
 }
+document.addEventListener("DOMContentLoaded", function() {
+        updateProgressBar();
+    });
 
 function drop(event, newStatus) {
     event.preventDefault();
@@ -351,6 +425,59 @@ function drop(event, newStatus) {
     })
     .catch(error => console.error("Error:", error));
 }
+function updateProgressBar() {
+    // Calculate total points and max points
+    const totalTasks = <?php echo array_sum(array_map('count', $tasks)); ?>;
+    const maxPoints = totalTasks * 2;
+    let currentPoints = 0;
+
+    // Calculate points for each task based on status
+    document.querySelectorAll('.task-item').forEach(task => {
+        const status = task.closest('.frame').id.replace('frame-', '');
+        if (status === 'in_progress') currentPoints += 1;
+        else if (status === 'completed') currentPoints += 2;
+    });
+
+    // Calculate progress percentage
+    const progressPercentage = Math.round((currentPoints / maxPoints) * 100);
+
+    // Update progress bar
+    const progressBar = document.getElementById("progress-bar");
+    progressBar.style.width = `${progressPercentage}%`;
+    progressBar.setAttribute("aria-valuenow", progressPercentage);
+    progressBar.textContent = `${progressPercentage}%`;
+}
+
+function drop(event, newStatus) {
+    event.preventDefault();
+    const taskId = event.dataTransfer.getData("text");
+    const taskElement = document.getElementById(taskId);
+
+    // Append the task element at the end of the frame to keep order
+    const targetFrame = event.currentTarget;
+    targetFrame.appendChild(taskElement);
+
+    // Send AJAX request to update task status in the database
+    const formData = new FormData();
+    formData.append("task_id", taskId.replace("task-", ""));
+    formData.append("new_status", newStatus);
+
+    fetch("project_view.php?project_id=<?php echo $project_id; ?>", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data.trim() === "Success") {
+            // Update the progress bar after successful task status change
+            updateProgressBar();
+        } else {
+            console.error("Failed to update task status");
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+
 
 </script>
 

@@ -35,6 +35,7 @@ $recent_projects_result = mysqli_query($con, $recent_projects_query);
 $recent_tasks_query = "SELECT task_name, description, due_date FROM task WHERE assigned_user_id = $user_id ORDER BY created_at DESC LIMIT 3";
 $recent_tasks_result = mysqli_query($con, $recent_tasks_query);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

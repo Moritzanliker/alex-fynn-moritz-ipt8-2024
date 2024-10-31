@@ -5,7 +5,7 @@ include("../php/functions.php");
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../pages/login.php"); // Redirect to login if not logged in
+    header("Location: ../pages/login.php");
     exit();
 }
 
@@ -13,28 +13,17 @@ if (!isset($_SESSION['user_id'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $task_name = $_POST['task_name'];
     $description = $_POST['description'];
-    $project_id = $_POST['project_id']; // Selected project
-    $assigned_user_ids = isset($_POST['assigned_user_ids']) ? $_POST['assigned_user_ids'] : []; // Array of assigned user IDs
+    $project_id = $_POST['project_id'];
+    $assigned_user_id = $_POST['assigned_user_id']; // selected user ID
     $status = $_POST['status'];
     $due_date = $_POST['due_date'];
 
-    // Insert the task first
-    $stmt_task = $con->prepare("INSERT INTO task (task_name, description, status, project_id, due_date) VALUES (?, ?, ?, ?, ?)");
-    $stmt_task->bind_param("sssis", $task_name, $description, $status, $project_id, $due_date);
+    // Insert the task with assigned_user_id
+    $stmt_task = $con->prepare("INSERT INTO task (task_name, description, status, project_id, due_date, assigned_user_id) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt_task->bind_param("sssisi", $task_name, $description, $status, $project_id, $due_date, $assigned_user_id);
 
     if ($stmt_task->execute()) {
-        // Get the last inserted task ID
-        $task_id = $stmt_task->insert_id;
-
-        // Assign users to the task
-        foreach ($assigned_user_ids as $user_id) {
-            $stmt_assign = $con->prepare("INSERT INTO task_users (task_id, user_id) VALUES (?, ?)");
-            $stmt_assign->bind_param("ii", $task_id, $user_id);
-            $stmt_assign->execute();
-            $stmt_assign->close();
-        }
-
-        echo "<p>Task created successfully and users assigned!</p>";
+        echo "<p>Task created successfully and user assigned!</p>";
     } else {
         echo "<p>Error: " . $stmt_task->error . "</p>";
     }
@@ -52,20 +41,15 @@ while ($stmt_projects->fetch()) {
 }
 $stmt_projects->close();
 
-// Fetch users assigned to the selected project (if a project is selected)
-$assigned_users = [];
-if (isset($_POST['project_id'])) {
-    $project_id = $_POST['project_id'];
-    $stmt_users = $con->prepare("SELECT u.user_id, u.username FROM user u INNER JOIN project_users pu ON u.user_id = pu.user_id WHERE pu.project_id = ?");
-    $stmt_users->bind_param("i", $project_id);
-    $stmt_users->execute();
-    $stmt_users->bind_result($user_id, $username);
-    while ($stmt_users->fetch()) {
-        $assigned_users[] = ['id' => $user_id, 'name' => $username];
-    }
-    $stmt_users->close();
+// Fetch available users for the dropdown
+$users = [];
+$stmt_users = $con->prepare("SELECT user_id, username FROM user");
+$stmt_users->execute();
+$stmt_users->bind_result($user_id, $username);
+while ($stmt_users->fetch()) {
+    $users[] = ['id' => $user_id, 'username' => $username];
 }
-
+$stmt_users->close();
 ?>
 
 <!DOCTYPE html>
@@ -126,7 +110,7 @@ if (isset($_POST['project_id'])) {
     </style>
 </head>
 <body>
-<a href="../pages/dashboard.php"> Go Back</a>
+<a href="../pages/dashboard.php">Go Back</a>
     <div class="container">
         <h2>Create a New Task</h2>
         <form method="POST" action="">
@@ -144,14 +128,13 @@ if (isset($_POST['project_id'])) {
                 <?php endforeach; ?>
             </select>
 
-            <?php if (!empty($assigned_users)): ?>
-                <div class="checkbox-group">
-                    <label>Assign Users:</label>
-                    <?php foreach ($assigned_users as $user): ?>
-                        <input type="checkbox" name="assigned_user_ids[]" value="<?= $user['id'] ?>"> <?= htmlspecialchars($user['name']) ?><br>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
+            <label for="assigned_user_id">Assign User:</label>
+            <select id="assigned_user_id" name="assigned_user_id" required>
+                <option value="">Select a user</option>
+                <?php foreach ($users as $user): ?>
+                    <option value="<?= $user['id'] ?>"><?= htmlspecialchars($user['username']) ?></option>
+                <?php endforeach; ?>
+            </select>
 
             <label for="status">Task Status:</label>
             <select id="status" name="status" required>

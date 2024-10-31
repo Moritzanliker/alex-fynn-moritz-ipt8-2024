@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $project_name = $_POST['project_name'];
     $description = $_POST['description'];
-    $owner_id = $_SESSION['user_id']; // Assuming user_id is stored in session
+    $owner_id = $_SESSION['user_id']; // The user creating the project
     $assigned_usernames = $_POST['assigned_usernames']; // Get the usernames input
     $status = $_POST['status']; // Get the selected status
     $due_date = $_POST['due_date']; // Get the due date input
@@ -28,7 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Get the last inserted project ID
         $project_id = $con->insert_id;
 
-        // If usernames are provided, insert them into the project_users table
+        // Automatically assign the creator as an "owner" in the project_users table
+        $stmt_creator = $con->prepare("INSERT INTO project_users (project_id, user_id, role) VALUES (?, ?, ?)");
+        $role_owner = 'owner'; // Define role as "owner"
+        $stmt_creator->bind_param("iis", $project_id, $owner_id, $role_owner);
+        $stmt_creator->execute();
+        $stmt_creator->close();
+
+        // If additional usernames are provided, insert them into the project_users table
         if (!empty($assigned_usernames)) {
             // Split usernames by comma and trim whitespace
             $usernames = array_map('trim', explode(',', $assigned_usernames));
@@ -45,9 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $stmt_user->bind_result($assigned_user_id);
                     $stmt_user->fetch();
 
-                    // Insert into project_users (you must create this table)
-                    $stmt_project_user = $con->prepare("INSERT INTO project_users (project_id, user_id) VALUES (?, ?)");
-                    $stmt_project_user->bind_param("ii", $project_id, $assigned_user_id);
+                    // Insert into project_users with default role 'member'
+                    $stmt_project_user = $con->prepare("INSERT INTO project_users (project_id, user_id, role) VALUES (?, ?, ?)");
+                    $role_member = 'member'; // Define role as "member"
+                    $stmt_project_user->bind_param("iis", $project_id, $assigned_user_id, $role_member);
                     $stmt_project_user->execute();
                     $stmt_project_user->close();
                 } else {

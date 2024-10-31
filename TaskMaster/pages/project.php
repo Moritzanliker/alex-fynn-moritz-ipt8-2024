@@ -90,7 +90,7 @@ $member_result = mysqli_query($con, $member_query);
                      </div>
                      <div class="card-footer">
                         <p>Created At: <?php echo htmlspecialchars($owner_project['created_at']); ?></p>
-                        <a href="#" class="view-link">View Project</a>
+                        <a href="../pages/project_view.php?project_id=<?php echo $owner_project['project_id']; ?>" class="view-link">View Project</a>
                      </div>
                   </div>
                </div>
@@ -113,7 +113,7 @@ $member_result = mysqli_query($con, $member_query);
                      </div>
                      <div class="card-footer">
                         <p>Created At: <?php echo htmlspecialchars($member_project['created_at']); ?></p>
-                        <a href="../pages/project_view.php" class="view-link">View Project</a>
+                        <a href="../pages/project_view.php?project_id=<?php echo $member_project['project_id']; ?>" class="view-link">View Project</a>
                      </div>
                   </div>
                </div>

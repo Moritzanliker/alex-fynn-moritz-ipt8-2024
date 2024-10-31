@@ -27,7 +27,8 @@ $upcoming_deadlines_result = mysqli_query($con, $upcoming_deadlines_query);
 $upcoming_deadlines_count = mysqli_fetch_assoc($upcoming_deadlines_result)['count'];
 
 // Query for the 3 most recent projects
-$recent_projects_query = "SELECT project_name, description, due_date FROM project WHERE owner_id = $user_id ORDER BY created_at DESC LIMIT 3";
+$recent_projects_query = "SELECT project_id, project_name, description, due_date FROM project WHERE owner_id = $user_id ORDER BY created_at DESC LIMIT 3";
+
 $recent_projects_result = mysqli_query($con, $recent_projects_query);
 
 // Query for the 3 most recent tasks
@@ -122,7 +123,7 @@ $recent_tasks_result = mysqli_query($con, $recent_tasks_query);
                         </div>
                         <div class="card-footer">
                             <p>Deadline: <?php echo $project['due_date']; ?></p>
-                            <a href="../pages/project_view.php" class="view-link">View Project</a>
+                            <a href="../pages/project_view.php?project_id=<?php echo $project['project_id']; ?>" class="view-link">View Project</a>
                         </div>
                     </div>
                     <?php } ?>

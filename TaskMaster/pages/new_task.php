@@ -45,7 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt_task->bind_param("sssiis", $task_name, $description, $status, $project_id, $assigned_user_id, $due_date);
 
     if ($stmt_task->execute()) {
-        echo "<p>Task created successfully!</p>";
+        // Redirect to the project page after successful task creation
+        header("Location: project_view.php?project_id=" . $project_id);
+        exit();
     } else {
         echo "<p>Error: " . $stmt_task->error . "</p>";
     }

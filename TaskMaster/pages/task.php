@@ -31,8 +31,6 @@ function fetch_tasks($con, $project_id) {
 ?>
 
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,8 +46,6 @@ function fetch_tasks($con, $project_id) {
             color: #333;
             margin: 0;
         }
-
-
 
         /* Button styling */
         .btn {
@@ -164,6 +160,10 @@ function fetch_tasks($con, $project_id) {
             </nav>
             <div class="header-actions">
                 Hello, <?php echo htmlspecialchars($user_data['username']); ?>
+                <label class="switch">
+                        <input type="checkbox" id="toggle-darkmode">
+                        <span class="slider"></span>
+                    </label>
                 <a href="../php/logout.php" class="nav-link">Logout</a>
             </div>
         </div>

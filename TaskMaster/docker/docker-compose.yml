@@ -5,30 +5,30 @@ services:
     image: mysql:latest
     container_name: database_container
     environment:
-      MYSQL_ROOT_PASSWORD: 123           # New root password
-      MYSQL_DATABASE: taskdb                   # New database name
-      MYSQL_USER: user                       # New non-root user
-      MYSQL_PASSWORD: 456                # New user password
+      MYSQL_ROOT_PASSWORD: 123         
+      MYSQL_DATABASE: taskdb                 
+      MYSQL_USER: user                   
+      MYSQL_PASSWORD: 456              
     ports:
-      - "3310:3306"                             # Changed host port
+      - "3310:3306"                     
     volumes:
       - my_data:/var/lib/mysql    
     networks:
-      - my_network                           # Changed network name
+      - my_network                   
 
   adminpanel:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin_container
     environment:
-      PMA_HOST: database                            # Refers to the new MySQL service name
-      MYSQL_ROOT_PASSWORD: 123          # New root password matching the db service
+      PMA_HOST: database                    
+      MYSQL_ROOT_PASSWORD: 123    
     ports:
-      - "8090:80"                               # Changed phpMyAdmin port
+      - "8090:80"               
     networks:
-      - my_network                           # Same network as the database
+      - my_network                 
 
 volumes:
-  my_data:                                    # Changed volume name
+  my_data:   
 
 networks:
-  my_network:                                # Changed network name
+  my_network:     

@@ -1,24 +1,59 @@
-# alex-fynn-moritz-ipt8-2024
+![image](https://github.com/user-attachments/assets/f4cc9d87-7fa5-404f-a534-1db568989991)# TaskMaster
 
-Project: https://github.com/users/Moritzanliker/projects/5
+## Projektübersicht
+**TaskMaster** ist eine webbasierte Task-Management-Plattform, die darauf abzielt, Teams die effiziente Zusammenarbeit an Projekten zu ermöglichen. Mit TaskMaster können Nutzer Projekte erstellen und Aufgaben (To-Dos) innerhalb eines Projekts in einem geteilten Arbeitsbereich, einem sogenannten "Board", organisieren. Teams können Aufgaben gemeinsam bearbeiten, ihren Fortschritt nachverfolgen und auf diese Weise sicherstellen, dass alle Beteiligten stets auf dem aktuellen Stand sind.
+
+## Hauptfunktionen
+- **Benutzerauthentifizierung**: Nutzer können sich registrieren und anmelden.
+- **Projekterstellung**: Projekte können erstellt und andere Nutzer zur Zusammenarbeit eingeladen werden.
+- **Boards**: Jedes Projekt verfügt über ein eigenes Board, auf dem alle zugehörigen Aufgaben gelistet sind.
+- **Aufgabenverwaltung**: Nutzer können Aufgaben erstellen, löschen und anderen Nutzern zuweisen.
+- **Team-Kollaboration**: Mehrere Nutzer können an einem Projekt arbeiten, den Fortschritt der Aufgaben verfolgen und miteinander kommunizieren.
+- **Fortschrittsverfolgung**: Visuelle Indikatoren zeigen den Abschlussgrad von Aufgaben an, um Teams zu unterstützen, den Überblick zu behalten.
+- **Organisation**: Projekte und Aufgaben werden nach Deadline sortiert, also ist immer kalr was am wichtigsten ist.  
+- **Dashboard**: Ein zentrales Dashboard bietet eine Übersicht über alle aktiven Projekte und Aufgaben.
+
+## Installation und Einrichtung
+
+1. **Voraussetzungen**:
+   - XAMPP
+   - PhpMyAdmin
+   - Docker
+
+2. **Repository klonen**:
+   ```bash
+   git clone https://github.com/Moritzanliker/TaskMaster.git
+- in htdocs im ordner xampp (C:\xampp\htdocs) !
+
+4. **XAMPP**
+   - Apache server starten
+     
+3. **Docker**
+    ```bash
+   docker-compose up -d
+
+4. **Datenbank**
+   - phpMyAdmin starten
+   - einloggen
+   - datenbank importieren
+
+5. **Webseite**
+   -   http://localhost/alex-fynn-moritz-ipt8-2024/TaskMaster/pages/index.html![image](https://github.com/user-attachments/assets/8bea3fbc-70d3-4624-b8a2-a7112cebd170)
+
+6. **Test Einloggen**
+   - Username: user1
+   - Password: 1
+    
+
+## Funktionsweise
+- **Benutzeranmeldung**: Beim Starten werden Benutzer zur Anmeldeseite weitergeleitet. Nach erfolgreicher Anmeldung sehen sie ihr Dashboard mit einer Übersicht über alle aktiven Projekte und Aufgaben.
+- **Dashboard**: Das Dashboard zeigt alle laufenden Projekte und Aufgaben. Von hier aus können Nutzer zu ihren Projekten und Boards navigieren. Die Projekte und Aufgaben werden sortiert nach Deadline. 
+- **Projektverwaltung**: In der Projektansicht können Nutzer neue Projekte erstellen und Teammitglieder hinzufügen. Jedes Projekt enthält ein Board, das alle Aufgaben anzeigt. 
+- **Aufgabenverwaltung**: Die Aufgaben in einem Projekt kann man selber von einer Spalte zu der anderen verschieben. Z.B. von "In Progress" zu "Completed", wenn die Task fertig ist.
+
+### Autoren:
+Alex Belik - Backend, Datenbank 
+Fynn Piekarek - Funktionen
+Moritz Anliker - Frontend, CI
 
 
-
-Project Summary: Collaborative Task Manager Web Application
-
-Project Name: TaskMaster
-
-Objective: TaskMaster is a web-based task management platform designed for project teams to collaborate efficiently. The platform allows users to create and manage projects by organizing tasks (To-Dos) in a shared workspace, referred to as a "board." Each board can be associated with a project, and users within a group can contribute by adding, updating, or completing tasks. The goal is to enhance team productivity and ensure everyone is on the same page regarding project progress.
-
-Key Features:
-
-User Authentication: Users can sign up, log in, and manage their profiles.
-Project Creation: Users can create projects and invite other users to collaborate.
-Boards: Each project has a dedicated board where all related tasks (To-Dos) are listed.
-Task Management: Users can create, update, and assign tasks within the board.
-Group Collaboration: Multiple users can work on the same project, track task progress, and communicate through the platform.
-Progress Tracking: The system provides visual indicators for task completion, helping teams stay on track.
-Notifications: Users receive notifications for task updates, deadlines, and comments from other collaborators.
-File Upload: Users can attach files to tasks to keep all necessary documentation in one place.
-Comments: Team members can discuss tasks by adding comments directly to the tasks.
-Dashboard: A central dashboard provides an overview of all active projects and tasks.

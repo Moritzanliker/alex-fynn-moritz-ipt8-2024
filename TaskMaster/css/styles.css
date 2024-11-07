@@ -258,54 +258,52 @@ a {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     margin-bottom: 50px;
 }
-.card-grid-projects-tasks {
-    display: grid;
-    justify-content: space-between;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    margin-bottom: 50px;
-}
 
 /* Card Styles */
 .card {
     background-color: var(--card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
-}
-
-.card-header h2 {
-    margin: 0 0 0.5rem;
-    font-size: 1.25rem;
-    font-weight: bold;
-}
-
-.card-header p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 0.875rem;
-}
-
-.card-content {
-    margin-top: 1rem;
-}
-.stats {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    text-align: center;
 }
 
-.stats-number {
-    font-size: 2.5rem;
+/* Header Styles */
+.card-header h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
     font-weight: bold;
+    color: var(--primary);
 }
 
+.card-header .stats-number {
+    font-size: 6rem;
+    font-weight: bold;
+    color: var(--accent-color);  /* Make numbers stand out */
+    margin: 0;
+}
 
-.icon-dashboard {
-    color: var(--primary);
-    max-width: 30px;
-    max-height: 30px;
+.card-header .stats-description {
+    font-size: 1rem;
+    color: var(--muted);
+    margin-top: 0.5rem;
+}
+
+/* Add some padding to make the content look balanced */
+.card-header {
+    padding: 1rem 0;
+}
+
+/* Card Grid on Hover */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
 
 /* Progress Bar */

@@ -95,31 +95,47 @@ $recent_tasks_result = mysqli_query($con, $recent_tasks_query);
                      </div>
                 </div>
                 <div class="card-grid">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Ongoing Projects</h2>
-                            <p><?php echo $ongoing_projects_count; ?> active projects</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Completed Tasks</h2>
-                            <p><?php echo $completed_tasks_count; ?> tasks completed</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Team Members</h2>
-                            <p><?php echo $team_members_count; ?> team members</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Upcoming Deadlines</h2>
-                            <p><?php echo $upcoming_deadlines_count; ?> deadlines this week</p>
-                        </div>
-                    </div>
-                </div>
+                <div class="card">
+    <div class="card-header">
+        <h2>Ongoing Projects</h2>
+        <div class="stats">
+            <div class="stats-number"><?php echo $ongoing_projects_count; ?></div>
+        </div>
+        <p>active projects</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2>Completed Tasks</h2>
+        <div class="stats">
+            <div class="stats-number"><?php echo $completed_tasks_count; ?></div>
+        </div>
+        <p>tasks completed</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2>Team Members</h2>
+        <div class="stats">
+            <div class="stats-number"><?php echo $team_members_count; ?></div>
+        </div>
+        <p>team members</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2>Upcoming Deadlines</h2>
+        <div class="stats">
+            <div class="stats-number"><?php echo $upcoming_deadlines_count; ?></div>
+        </div>
+        <p>deadlines this week</p>
+    </div>
+</div>
+</div>
+
             </section>
             <!-- Recent Projects Section -->
             <section class="recent-section">

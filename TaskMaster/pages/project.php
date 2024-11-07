@@ -109,6 +109,18 @@ while ($project = mysqli_fetch_assoc($member_result)) {
          background-color: #4caf50;
          height: 100%;
       }
+      /* Progress Bar */
+
+
+.progress-bar {
+    background-color: var(--primary);
+    border-radius: 4px;
+    height: 8px;
+    width: 17%;
+    overflow: hidden;
+    background-color: #f3f4f6;
+    margin-top: 10px;
+}
    </style>
 </head>
 <body>
@@ -158,7 +170,7 @@ while ($project = mysqli_fetch_assoc($member_result)) {
                         <p><?php echo htmlspecialchars($owner_project['description']); ?></p>
                      </div>
                      <div class="card-content">
-                        <div class="progress">
+                        <div class="progress-Project">
                            <span>Progress</span>
                            <div class="progress-bar">
                                  <div class="progress-fill" style="width: <?php echo $owner_project['progress']; ?>%;"></div>
@@ -183,7 +195,7 @@ while ($project = mysqli_fetch_assoc($member_result)) {
                         <p><?php echo htmlspecialchars($member_project['description']); ?></p>
                      </div>
                      <div class="card-content">
-                        <div class="progress">
+                        <div class="progress-Project">
                            <span>Progress</span>
                            <div class="progress-bar">
                                  <div class="progress-fill" style="width: <?php echo $member_project['progress']; ?>%;"></div>

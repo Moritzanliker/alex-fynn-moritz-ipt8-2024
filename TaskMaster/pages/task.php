@@ -160,10 +160,6 @@ function fetch_tasks($con, $project_id) {
             </nav>
             <div class="header-actions">
                 Hello, <?php echo htmlspecialchars($user_data['username']); ?>
-                <label class="switch">
-                        <input type="checkbox" id="toggle-darkmode">
-                        <span class="slider"></span>
-                    </label>
                 <a href="../php/logout.php" class="nav-link">Logout</a>
             </div>
         </div>

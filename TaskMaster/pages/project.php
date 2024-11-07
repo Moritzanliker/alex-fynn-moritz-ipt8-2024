@@ -140,10 +140,6 @@ while ($project = mysqli_fetch_assoc($member_result)) {
          </nav>
          <div class="header-actions">
             Hello, <?php echo $user_data['username']; ?>
-            <label class="switch">
-               <input type="checkbox" id="toggle-darkmode">
-               <span class="slider"></span>
-            </label>
             <nav class="nav">
                <a href="../php/logout.php" class="nav-link">Logout</a>
             </nav>

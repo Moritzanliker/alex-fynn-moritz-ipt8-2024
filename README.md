@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/f4cc9d87-7fa5-404f-a534-1db568989991)# TaskMaster
+# TaskMaster
 
 ## Projektübersicht
 **TaskMaster** ist eine webbasierte Task-Management-Plattform, die darauf abzielt, Teams die effiziente Zusammenarbeit an Projekten zu ermöglichen. Mit TaskMaster können Nutzer Projekte erstellen und Aufgaben (To-Dos) innerhalb eines Projekts in einem geteilten Arbeitsbereich, einem sogenannten "Board", organisieren. Teams können Aufgaben gemeinsam bearbeiten, ihren Fortschritt nachverfolgen und auf diese Weise sicherstellen, dass alle Beteiligten stets auf dem aktuellen Stand sind.
@@ -19,28 +19,27 @@
    - XAMPP
    - PhpMyAdmin
    - Docker
-
+     
 2. **Repository klonen**:
    ```bash
    git clone https://github.com/Moritzanliker/TaskMaster.git
 - in htdocs im ordner xampp (C:\xampp\htdocs) !
 
-4. **XAMPP**
+
+3. **XAMPP**
    - Apache server starten
      
-3. **Docker**
+4. **Docker**
     ```bash
    docker-compose up -d
 
-4. **Datenbank**
+5. **Datenbank**
    - phpMyAdmin starten
-   - einloggen
+   - einloggen (root / 123)
    - datenbank importieren
 
-5. **Webseite**
-   -   http://localhost/alex-fynn-moritz-ipt8-2024/TaskMaster/pages/index.html![image](https://github.com/user-attachments/assets/8bea3fbc-70d3-4624-b8a2-a7112cebd170)
-
-6. **Test Einloggen**
+6. **Webseite**
+   -   http://localhost/alex-fynn-moritz-ipt8-2024/TaskMaster/pages/index.html
    - Username: user1
    - Password: 1
     
